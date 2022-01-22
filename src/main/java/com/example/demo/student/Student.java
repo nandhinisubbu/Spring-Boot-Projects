@@ -2,6 +2,7 @@ package com.example.demo.student;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.Period;
 
 @Entity
 @Table
@@ -20,7 +21,9 @@ public class Student {
     private Long id;
     private String name;
     private String email;
-    private LocalDate date;
+    private LocalDate dob;
+
+    @Transient
     private Integer age;
 
     public Student(){
@@ -28,20 +31,18 @@ public class Student {
     }
 
 
-    public Student(Long id, String name, String email, LocalDate date,Integer age){
+    public Student(Long id, String name, String email, LocalDate date){
         this.id =id;
         this.name=name;
         this.email=email;
-        this.date=date;
-        this.age = age;
+        this.dob =date;
 
     }
 
-    public Student(String name, String email, LocalDate date,Integer age){
+    public Student(String name, String email, LocalDate date){
         this.name=name;
         this.email=email;
-        this.date=date;
-        this.age = age;
+        this.dob =date;
 
     }
 
@@ -69,16 +70,17 @@ public class Student {
         this.email = email;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getDob() {
+        return dob;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
     }
 
     public Integer getAge() {
-        return age;
+
+        return Period.between(this.dob,LocalDate.now()).getYears();
     }
 
     public void setAge(Integer age) {
@@ -91,7 +93,7 @@ public class Student {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", date=" + date +
+                ", date=" + dob +
                 ", age=" + age +
                 '}';
     }
